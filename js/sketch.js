@@ -11,7 +11,41 @@
 
 /* global generateGrid drawGrid */
 
-let seed = 0;
+function resizeScreen() {
+  centerHorz = canvasContainer.width() / 2; // Adjusted for drawing logic
+  centerVert = canvasContainer.height() / 2; // Adjusted for drawing logic
+  console.log("Resizing...");
+  resizeCanvas(canvasContainer.width(), canvasContainer.height());
+  // redrawCanvas(); // Redraw everything based on new size
+}
+
+function setup() {
+  canvasContainer = $("#canvas-container");
+  let canvas = createCanvas(300, 400, WEBGL);
+  canvas.parent("canvas-container");
+}
+
+
+function draw() {
+  background(50);
+  rectMode(CENTER);
+  noStroke();
+  fill(0, 0, 255);
+  rotateX(-0.2);
+  orbitControl();
+  lights();
+  sphere();
+  cylinder(50, 100);
+  translate(0, 25, 50);
+  box();
+  translate(0, -100, -50);
+  sphere(70);
+
+
+}
+
+
+/*let seed = 0;
 let tilesetImage;
 let currentGrid = [];
 let numRows, numCols;
@@ -366,4 +400,4 @@ const bgLookup = [
   [13, 20], // Bottom-middle wall
   [13, 18], // Top-middle wall
   [0, 12] // Floor
-];
+];*/
