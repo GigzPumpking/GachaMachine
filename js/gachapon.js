@@ -32,9 +32,6 @@ function randomWeighted(list, weights) {
   return random(temp);
 }
 
-// variable to store the model generated
-let shape;
-
 /* Class that stores information related to the generated object
  */
 class Gacha {
@@ -96,6 +93,6 @@ class Gacha {
     pop();
 
     // Stop building the p5.Geometry object and saves it to shape.
-    shape = endGeometry();
+    return endGeometry();
   }
 }

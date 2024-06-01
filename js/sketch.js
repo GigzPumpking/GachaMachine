@@ -19,20 +19,27 @@ function resizeScreen() {
   // redrawCanvas(); // Redraw everything based on new size
 }
 
+let test;
+let shape;
+
 function setup() {
   canvasContainer = $("#canvas-container");
-  let canvas = createCanvas(300, 400, WEBGL);
+  let canvas = createCanvas(500, 500, WEBGL);
   canvas.parent("canvas-container");
-}
 
+  test = new Gacha();
+  shape = test.draw();
+}
 
 function draw() {
   background(50);
+  
+  // Gacha Machine Drawing
+  /*
   rectMode(CENTER);
   noStroke();
   fill(0, 0, 255);
   rotateX(-0.2);
-  orbitControl();
   lights();
   sphere();
   cylinder(50, 100);
@@ -40,10 +47,12 @@ function draw() {
   box();
   translate(0, -100, -50);
   sphere(70);
-
-
+  */
+  
+  
+  orbitControl();
+  model(shape);
 }
-
 
 /*let seed = 0;
 let tilesetImage;
