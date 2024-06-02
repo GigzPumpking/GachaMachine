@@ -8,10 +8,11 @@ const COLORS = ["white", "red", "blue", "green", "gold"];
 const COLORS_WEIGHTS = [10, 3, 3, 3, 1];
 
 // Hat for the object
-const HATS = ["none", "cone", "top_hat"];
-const HATS_WEIGHT = [5, 2, 2];
-const HAT_COLOR = ["black", "purple", "silver"];
-const HAT_COLOR_WEIGHT = [4, 4, 2];
+const HATS = ["none", "cone", "top_hat", "cap", "bowler_hat", "witch_hat", "party_hat", "straw_hat"];
+const HATS_WEIGHT = [0, 0, 0, 0, 0, 0, 0, 1];
+// const HATS_WEIGHT = [5, 2, 2, 2, 2, 2, 1, 1];
+const HAT_COLOR = ["black", "purple", "silver", "gray", "teal", "aqua"];
+const HAT_COLOR_WEIGHT = [4, 4, 2, 2, 1, 4];
 
 /* Helper function to randomly select a trait based on a list of traits and corresponding
  * weights associated to it
@@ -88,6 +89,67 @@ class Gacha {
       cylinder((this.size * 3) / 4, (this.size * 1) / 2);
       translate(0, this.size, 0);
       cylinder((this.size * 1) / 2, this.size * 2);
+    }
+
+    if (this.hat == "cap") {
+      rotateX(PI);
+      if (this.base == "sphere") {
+        translate(0, this.size, 0);
+      } else {
+        translate(0, this.size / 2, 0);
+      }
+      cylinder(this.size / 2, this.size / 2);
+      translate(0, -this.size / 8, -this.size / 2);
+      box(this.size, this.size / 4, this.size * 3/4);
+    }
+
+    if (this.hat == "bowler_hat") {
+      rotateX(PI);
+      if (this.base == "sphere") {
+        translate(0, this.size * 5/4, 0);
+      } else {
+        translate(0, this.size * 3/4, 0);
+      }
+      sphere(this.size / 4);
+      translate(0, -this.size / 5, 0);
+      cylinder(this.size/ 4, this.size/2)
+      cylinder(this.size / 2, this.size / 8);
+    }
+
+    if (this.hat == "witch_hat") {
+      rotateX(PI);
+      if (this.base == "sphere") {
+        translate(0, this.size * 6/4, 0);
+      } else {
+        translate(0, this.size, 0);
+      }
+      cone(this.size / 2, this.size);
+      translate(0, -this.size / 2, 0);
+      cylinder(this.size, this.size / 6);
+    }
+
+    if (this.hat == "party_hat") {
+      rotateX(PI);
+      if (this.base == "sphere") {
+        translate(0, this.size * 5/4, 0);
+      } else {
+        translate(0, this.size * 2/3, 0);
+      }
+      cone(this.size / 4, this.size / 2);
+      translate(0, this.size / 4, 0);
+      sphere(this.size / 10)
+    }
+
+    if (this.hat == "straw_hat") {
+      rotateX(PI);
+      if (this.base == "sphere") {
+        translate(0, this.size, 0);
+      } else {
+        translate(0, this.size * 1/2, 0);
+      }
+      cylinder(this.size, this.size * 1/4);
+      translate(0, this.size * 1/4, 0);
+      cylinder((this.size * 1) / 2, this.size * 1/4);
     }
 
     pop();
