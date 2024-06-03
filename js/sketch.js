@@ -43,15 +43,13 @@ function setup() {
   textSize(20);
   textFont(myFont);
 
-  funnyName = generateFunnyName();
-
   rerollShape();
 }
 
 function rerollShape() {
   test = new Gacha();
   shape = test.draw();
-  funnyName = generateFunnyName();
+  funnyName = generateFunnyName() + " \nRarity: " + test.getRarity();
 }
 
 function draw() {
@@ -59,7 +57,7 @@ function draw() {
 
   // Text Drawing
   fill(255);
-  text(funnyName, -200, 0, 400, 300);
+  text(funnyName, -200, 0, 400, 400);
   
   // Gacha Machine Drawing
   /*

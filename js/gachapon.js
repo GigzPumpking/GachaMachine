@@ -55,6 +55,10 @@ function randomWeighted(list, weights) {
   return [generatedTrait, rareFactor];
 }
 
+function returnRarity() {
+  return rarity;
+}
+
 /* Class that stores information related to the generated object
  */
 class Gacha {
