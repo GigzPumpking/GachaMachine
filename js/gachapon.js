@@ -3,7 +3,7 @@
  */
 
 //Base shape of object
-const BASES = ["box", "sphere", "cylinder"];
+const BASES = ["box", "cylinder", "sphere", "torus", "face", "drone", "billy"];
 const COLORS = ["white", "red", "blue", "green", "gold"];
 const COLORS_WEIGHTS = [10, 3, 3, 3, 1];
 
@@ -105,16 +105,108 @@ class Gacha {
 
     // Creates the base of the object
     fill(this.baseColor);
-    if (this.base == "box") {
-      box(this.size);
-    }
-    if (this.base == "sphere") {
-      sphere(this.size);
-    }
-    if (this.base == "cylinder") {
-      cylinder(this.size / 2, this.size);
-    }
+    switch(this.base) {
+      case "box": 
+        box(this.size);
+        break;
+      case "sphere":
+        sphere(this.size);
+        break;
+      case "cylinder": 
+        cylinder(this.size / 2, this.size);
+        break;
+      case "torus":
+        push();
+        translate(0, this.size / 2, 0);
+        torus(this.size, this.size / 4);
+        pop();
+        break;
+      case "face":
+        push();
+        ellipse(0, 0, this.size, this.size);
+        fill("black");
+        let eyeOffsetX = this.size / 4;
+        let eyeOffsetY = -this.size / 6;
+        let eyeSize = this.size / 10;
 
+        fill(0); 
+        ellipse(-eyeOffsetX, eyeOffsetY, eyeSize, eyeSize);
+        ellipse(eyeOffsetX, eyeOffsetY, eyeSize, eyeSize);
+
+        pop();
+        break;
+      case "drone":
+        push();
+        sphere(this.size);
+        pop();
+
+        let legLength = this.size / 2;
+        let legWidth = 20;
+        let legOffset = this.size / 2;
+
+        push();
+        translate(legOffset, legOffset, legOffset);
+        cylinder(legWidth, legLength);
+        pop();
+
+        push();
+        translate(-legOffset, legOffset, -legOffset);
+        cylinder(legWidth, legLength);
+        pop();
+
+        push();
+        translate(legOffset, -legOffset, legOffset);
+        cylinder(legWidth, legLength);
+        pop();
+
+        push();
+        translate(-legOffset, -legOffset, -legOffset);
+        cylinder(legWidth, legLength);
+        pop();
+        break;
+      case "billy":
+        // a very abstract interpretation of a body 
+        let bodyHeight = this.size * 1.5;
+        let headSize = this.size / 2;
+        let armLength = this.size;
+        let legLengthBilly = this.size;
+
+        push();
+        translate(0, -bodyHeight / 2 - headSize / 2, 0);
+        sphere(headSize);
+        pop();
+
+        push();
+        translate(0, -bodyHeight / 4, 0);
+        rotateX(HALF_PI);
+        cylinder(headSize / 2, bodyHeight);
+        pop();
+
+        push();
+        translate(-armLength / 2, -bodyHeight / 2, 0);
+        rotateZ(HALF_PI);
+        cylinder(headSize / 4, armLength);
+        pop();
+
+        push();
+        translate(armLength / 2, -bodyHeight / 2, 0);
+        rotateZ(HALF_PI);
+        cylinder(headSize / 4, armLength);
+        pop();
+
+        push();
+        translate(-headSize / 4, bodyHeight / 2, 0);
+        rotateX(HALF_PI);
+        cylinder(headSize / 4, legLengthBilly);
+        pop();
+ 
+        push();
+        translate(headSize / 4, bodyHeight / 2, 0);
+        rotateX(HALF_PI);
+        cylinder(headSize / 4, legLengthBilly);
+        pop();
+        break;
+    }
     // creates the hats of the object
     fill(this.hatColor);
     if (this.hat == "cone") {
