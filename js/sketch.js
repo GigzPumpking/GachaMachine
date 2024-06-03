@@ -21,6 +21,11 @@ function resizeScreen() {
 
 let test;
 let shape;
+let funnyName;
+
+function preload() {
+  myFont = loadFont('assets/Roboto-Regular.ttf');
+}
 
 function setup() {
   canvasContainer = $("#canvas-container");
@@ -34,16 +39,27 @@ function setup() {
   reroll.parent("canvas-container");
   reroll.mousePressed(rerollShape);
 
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  textFont(myFont);
+
+  funnyName = generateFunnyName();
+
   rerollShape();
 }
 
 function rerollShape() {
   test = new Gacha();
   shape = test.draw();
+  funnyName = generateFunnyName();
 }
 
 function draw() {
   background(50);
+
+  // Text Drawing
+  fill(255);
+  text(funnyName, -200, 0, 400, 300);
   
   // Gacha Machine Drawing
   /*
