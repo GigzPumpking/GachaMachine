@@ -22,6 +22,7 @@ function resizeScreen() {
 let test;
 let shape;
 let funnyName;
+let camera;
 
 function preload() {
   myFont = loadFont('assets/Roboto-Regular.ttf');
@@ -44,6 +45,8 @@ function setup() {
   textFont(myFont);
 
   rerollShape();
+
+  camera = createCamera();
 }
 
 function rerollShape() {
@@ -60,20 +63,25 @@ function draw() {
   text(funnyName, -200, 0, 400, 400);
   
   // Gacha Machine Drawing
-  /*
-  rectMode(CENTER);
+  
+  translate(camera.centerX, camera.centerY, camera.centerZ - 500);
+  //translate(camera.eyeX, camera.eyeY, (camera.eyeZ - 1000));
+  
   noStroke();
   fill(0, 0, 255);
-  rotateX(-0.2);
   lights();
+  rotateX(-0.2);
   sphere();
   cylinder(50, 100);
   translate(0, 25, 50);
   box();
   translate(0, -100, -50);
   sphere(70);
-  */
-  
+
+  rotateX(0.2);
+  translate(0, 75, 0);
+  //translate(-camera.eyeX, -camera.eyeY, -(camera.eyeZ - 1000));
+  translate(-camera.centerX, -camera.centerY, -camera.centerZ - 500);
   
   orbitControl();
   model(shape);
