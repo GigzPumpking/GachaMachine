@@ -49,7 +49,7 @@ function rerollShape() {
   	20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
   	0.4,     // The size of a unit "box()" making up part of the letter  
   	40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
-  	true,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
+  	false,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
   	myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
   	BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
 	);
