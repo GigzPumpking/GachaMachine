@@ -55,6 +55,10 @@ function randomWeighted(list, weights) {
   return [generatedTrait, rareFactor];
 }
 
+function returnRarity() {
+  return rarity;
+}
+
 /* Class that stores information related to the generated object
  */
 class Gacha {
@@ -82,7 +86,8 @@ class Gacha {
       this.rarity += genHatCol[1];
     }
 
-    console.log("Total Rarity: " + this.rarity);
+    this.xAngle = 0;
+    this.yAngle = 0;
   }
 
   regenerate() {
@@ -95,6 +100,13 @@ class Gacha {
     return this.rarity;
   }
 
+  // Rotates the obect by (horizontal, verticle)
+  rotateItem(x, y) {
+    this.xAngle += x;
+    this.yAngle += y;
+    //this.draw()
+  }
+
   draw() {
     noStroke();
 
@@ -102,6 +114,9 @@ class Gacha {
     beginGeometry();
 
     push();
+    // Rotates the object
+    rotateX(this.xAngle)
+    rotateY(this.yAngle)
 
     // Creates the base of the object
     fill(this.baseColor);
@@ -166,44 +181,39 @@ class Gacha {
         break;
       case "billy":
         // a very abstract interpretation of a body 
-        let bodyHeight = this.size * 1.5;
+        let y_translation = -10;
+        let bodyHeight = this.size * .5;
         let headSize = this.size / 2;
         let armLength = this.size;
-        let legLengthBilly = this.size;
 
+        // head + body
         push();
-        translate(0, -bodyHeight / 2 - headSize / 2, 0);
+        translate(0, -bodyHeight / 2 - y_translation, 0);
         sphere(headSize);
         pop();
 
+        // legs
         push();
-        translate(0, -bodyHeight / 4, 0);
-        rotateX(HALF_PI);
-        cylinder(headSize / 2, bodyHeight);
+        translate(-headSize/2, bodyHeight / 2 - y_translation, 0);
+        cylinder(headSize / 4, bodyHeight);
         pop();
 
         push();
-        translate(-armLength / 2, -bodyHeight / 2, 0);
-        rotateZ(HALF_PI);
+        translate(headSize/2, bodyHeight / 2 - y_translation, 0);
+        cylinder(headSize / 4, bodyHeight);
+        pop();
+
+        //arms
+        push();
+        translate(-armLength / 2, -bodyHeight / 2 - y_translation, 0);
+        rotateZ(-HALF_PI*1.5);
         cylinder(headSize / 4, armLength);
         pop();
 
         push();
-        translate(armLength / 2, -bodyHeight / 2, 0);
-        rotateZ(HALF_PI);
+        translate(armLength / 2, -bodyHeight / 2 - y_translation, 0);
+        rotateZ(HALF_PI*1.5);
         cylinder(headSize / 4, armLength);
-        pop();
-
-        push();
-        translate(-headSize / 4, bodyHeight / 2, 0);
-        rotateX(HALF_PI);
-        cylinder(headSize / 4, legLengthBilly);
-        pop();
- 
-        push();
-        translate(headSize / 4, bodyHeight / 2, 0);
-        rotateX(HALF_PI);
-        cylinder(headSize / 4, legLengthBilly);
         pop();
         break;
     }

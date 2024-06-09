@@ -43,15 +43,13 @@ function setup() {
   textSize(20);
   textFont(myFont);
 
-  funnyName = generateFunnyName();
-
   rerollShape();
 }
 
 function rerollShape() {
   test = new Gacha();
   shape = test.draw();
-  funnyName = generateFunnyName();
+  funnyName = generateFunnyName() + " \nRarity: " + test.getRarity();
 }
 
 function draw() {
@@ -59,7 +57,7 @@ function draw() {
 
   // Text Drawing
   fill(255);
-  text(funnyName, -200, 0, 400, 300);
+  text(funnyName, -200, 0, 400, 400);
   
   // Gacha Machine Drawing
   /*
@@ -77,6 +75,12 @@ function draw() {
   */
   
   
-  orbitControl();
   model(shape);
+}
+
+function mouseDragged() {
+  const xShift = (mouseY - pmouseY)/100
+  const yShift = (mouseX - pmouseX)/100
+  test.rotateItem(xShift, yShift);
+  shape = test.draw()
 }
