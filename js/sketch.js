@@ -68,9 +68,16 @@ function draw() {
   //translate(camera.eyeX, camera.eyeY, (camera.eyeZ - 1000));
   push();
   noStroke();
+
+  fill(255, 50, 50);
+  translate(0, -40, 0);
+  box(30);
+  translate(0, 40, 0);
+
   fill(255, 0, 0, 255);
   lights();
   cylinder(50, 100);
+
   translate(0, 25, 50);
   box();
   translate(0, 5, 11);
@@ -173,59 +180,59 @@ function draw() {
   fill(55, 250, 0);
   sphere(15);
   translate(-23.48, 43.94, 4.18);
-//
+
   translate(-8.45, -49.28, 0);
-  fill(55, 250, 0);
+  fill(255, 250, 0);
   sphere(15);
   translate(8.45, 49.28, 0);
 
   translate(46.36, -17.19, -7.43);
-  fill(55, 250, 0);
+  fill(55, 250, 55);
   sphere(15);
   translate(-46.36, 17.19, 7.43);
 
   translate(47.1, 15.26, -7.01);
-  fill(55, 250, 0);
+  fill(0, 0, 255);
   sphere(15);
   translate(-47.1, -15.26, 7.01);
 
   translate(33.71, 16.31, -33.13);
-  fill(55, 250, 0);
+  fill(255, 250, 0);
   sphere(15);
   translate(-33.71, -16.31, 33.13);
 
   translate(33.71, 16.31, -33.13);
-  fill(55, 250, 0);
+  fill(55, 250, 255);
   sphere(15);
   translate(-33.71, -16.31, 33.13);
 
   translate(7.92, 30.19, -39.06);
-  fill(55, 250, 0);
+  fill(255, 255, 0);
   sphere(15);
   translate(-7.92, -30.19, 39.06);
 
   translate(-21.49, 34.3, -29.35);
-  fill(55, 250, 0);
+  fill(55, 50, 50);
   sphere(15);
   translate(21.49, -34.3, 29.35);
 
   translate(-38.36, 7.51, -32.18);
-  fill(55, 250, 0);
+  fill(255, 255, 255);
   sphere(15);
   translate(38.36, -7.51, 32.18);
 
   translate(-5.58, 3.95, -49.53);
-  fill(55, 250, 0);
+  fill(255, 50, 125);
   sphere(15);
   translate(5.58, -3.95, 49.53);
 
   translate(18.82, -4.52, -46.1);
-  fill(55, 250, 0);
+  fill(155, 150, 200);
   sphere(15);
   translate(-18.82, 4.52, 46.1);
 
   translate(-30.33, -21.55, -33.4);
-  fill(55, 250, 0);
+  fill(255, 250, 0);
   sphere(15);
   translate(30.33, 21.55, 33.4);
 
@@ -235,37 +242,37 @@ function draw() {
   translate(14.7, 26.12, -1.38);
 
   translate(15.75, -25.53, 0);
-  fill(55, 250, 0);
+  fill(55, 255, 255);
   sphere(15);
   translate(-15.75, 25.53, 0);
 
   translate(28.23, 0.6, 10.12);
-  fill(55, 250, 0);
+  fill(55, 0, 250);
   sphere(15);
   translate(-28.23, -0.6, -10.12);
 
   translate(16.59, 24.61, 4.35);
-  fill(55, 250, 0);
+  fill(250, 55, 0);
   sphere(15);
   translate(-16.59, -24.61, -4.35);
 
   translate(22.23, 2.92, -19.93);
-  fill(55, 250, 0);
+  fill(0, 55, 250);
   sphere(15);
   translate(-22.23, -2.92, 19.93);
 
   translate(0.96, -15.95, -25.39);
-  fill(55, 250, 0);
+  fill(55, 250, 250);
   sphere(15);
   translate(-0.96, 15.95, 25.39);
 
   translate(-23.87, -1.13, -18.14);
-  fill(55, 250, 0);
+  fill(255, 50, 100);
   sphere(15);
   translate(23.87, 1.13, 18.14);
 
   translate(-2.61, 17.66, -24.11);
-  fill(55, 250, 0);
+  fill(155, 150, 0);
   sphere(15);
   translate(2.61, -17.66, 24.11);
 
@@ -275,7 +282,7 @@ function draw() {
   translate(15.31, -25.68, -2.43);
 
   translate(-27.33, 0.24, 12.37);
-  fill(55, 250, 0);
+  fill(200, 200, 100);
   sphere(15);
   translate(27.33, -0.24, -12.37);
 
@@ -285,11 +292,11 @@ function draw() {
   translate(-2.21, 15.8, -25.4);
 
   translate(-0.51, 14.82, 26.08);
-  fill(55, 250, 0);
+  fill(155, 250, 100);
   sphere(15);
   translate(0.51, -14.82, -26.08);
 
-  fill(55, 250, 0);
+  fill(250, 250, 0);
   sphere(15);
 
   fill(255, 255, 255, 100);
