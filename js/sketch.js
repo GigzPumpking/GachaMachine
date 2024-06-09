@@ -12,7 +12,6 @@
 /* global generateGrid drawGrid */
 
 let gachaMachine;
-let gachaMachine;
 let funnyName;
 let myFont;
 let wordText;
@@ -82,6 +81,8 @@ class GachaMachine {
     this.shape = this.item.draw();
     this.translation = { x: 0, y: -50, z: -200 }; // Translation properties
     this.knob = { x: this.translation.x, y: this.translation.y - 25, z: this.translation.z + 50};
+    this.rolls = 0;
+    this.gacha_flag = false;
   }
 
   rerollShape() {
@@ -106,7 +107,6 @@ class GachaMachine {
   handleMousePressed(x, y) {
     if (x - 250 <= this.knob.x + 20 && x - 250 >= this.knob.x - 20 && y - 275 <= this.knob.y + 20 && y - 275 >= this.knob.y - 20) {
       this.rollclick += 1;
-      this.rerollShape();
     }
     if (this.rollclick > 4) {
       this.rollclick = 0;
@@ -154,8 +154,32 @@ class GachaMachine {
     translate(0, 25, 50);
     box();
     translate(0, 5, 11);
-    fill(255, 255, 255);
-    box(30);
+    push();
+      fill(0, 0, 150)
+      if(this.rollclick%2 == 1 && this.rolls < 200 && this.gacha_flag == false){
+        this.rolls += 1;
+      }
+      if(this.rolls >= 200){
+        this.rerollShape();
+        this.gacha_flag = true;
+        this.rolls = 0;
+      }
+      if(this.rollclick%2 == 0){
+        this.rolls = 0;
+        this.gacha_flag = false;
+      }
+      translate(0, this.rolls/2, this.rolls)
+      sphere(15);
+    pop();
+    fill(0, 0, 0);
+    box(30)
+    push();
+      translate(0, 0, 15);
+      rotateX(HALF_PI * (this.rollclick%2));
+      translate(0, 14 * (this.rollclick%2), 15 * (this.rollclick%2));
+      fill(255, 255, 255);
+      box(30, 30, 1);
+    pop();
     translate(0, -5, -11);
     translate(0, -125, -50);
 
