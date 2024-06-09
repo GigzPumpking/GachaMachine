@@ -221,8 +221,16 @@ class Gacha {
     fill(this.hatColor);
     if (this.hat == "cone") {
       rotateX(PI);
-      translate(0, this.size, 0);
-      cone(this.size, this.size);
+      if (this.base == "face") {
+        translate(0, this.size * 2.5/4, 0);
+        cone(this.size/2, this.size/2);
+      } else if (this.base == "drone") {
+        translate(0, this.size * 10/8, 0);
+        cone(this.size, this.size);
+      } else {
+        translate(0, this.size, 0);
+        cone(this.size, this.size);
+      }
     }
 
     if (this.hat == "top_hat") {
@@ -237,6 +245,10 @@ class Gacha {
       rotateX(PI);
       if (this.base == "sphere") {
         translate(0, this.size, 0);
+      } else if (this.base == "torus") {
+        translate(0, this.size * 7/8, 0);
+      } else if (this.base == "drone") {
+        translate(0, this.size, 0);
       } else {
         translate(0, this.size / 2, 0);
       }
@@ -249,12 +261,17 @@ class Gacha {
       rotateX(PI);
       if (this.base == "sphere") {
         translate(0, this.size * 5/4, 0);
+      } else if (this.base == "torus") {
+        translate(0, this.size * 7/8, 0);
+      } else if (this.base == "drone") {
+        translate(0, this.size * 10/8, 0);
       } else {
         translate(0, this.size * 3/4, 0);
       }
       sphere(this.size / 4);
-      translate(0, -this.size / 5, 0);
-      cylinder(this.size/ 4, this.size/2)
+      translate(0, -this.size / 8, 0);
+      cylinder(this.size/ 4, this.size/4)
+      translate(0, -this.size / 8, 0);
       cylinder(this.size / 2, this.size / 8);
     }
 
@@ -262,6 +279,8 @@ class Gacha {
       rotateX(PI);
       if (this.base == "sphere") {
         translate(0, this.size * 6/4, 0);
+      } else if (this.base == "drone") {
+        translate(0, this.size * 11/8, 0);
       } else {
         translate(0, this.size, 0);
       }
@@ -274,6 +293,12 @@ class Gacha {
       rotateX(PI);
       if (this.base == "sphere") {
         translate(0, this.size * 5/4, 0);
+      } else if (this.base == "torus") {
+        translate(0, this.size * 9.5/10, 0);
+      } else if (this.base == "drone") {
+        translate(0, this.size * 9/8, 0);
+      } else if (this.base == "billy") {
+        translate(0, this.size * 6/8, 0);
       } else {
         translate(0, this.size * 2/3, 0);
       }
@@ -286,6 +311,8 @@ class Gacha {
       rotateX(PI);
       if (this.base == "sphere") {
         translate(0, this.size, 0);
+      } else if (this.base == "drone") {
+        translate(0, this.size * 7/8, 0);
       } else {
         translate(0, this.size * 1/2, 0);
       }
