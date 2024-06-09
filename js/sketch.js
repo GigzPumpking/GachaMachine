@@ -1,16 +1,3 @@
-// sketch.js - purpose and description here
-// Author: Your Name
-// Date:
-
-// Here is how you might set up an OOP p5.js project
-// Note that p5.js looks for a file called sketch.js
-
-// Globals
-
-/* exported preload, setup, draw, placeTile */
-
-/* global generateGrid drawGrid */
-
 let gachaMachine;
 let funnyName;
 let myFont;
@@ -84,6 +71,8 @@ class GachaMachine {
   }
 
   rerollShape() {
+    this.item = new Gacha();
+    this.shape = this.item.draw();
     funnyName = generateFunnyName() + " \nRarity: " + gachaMachine.getRarity();
     wordText = new Word3D(
       funnyName,       // The actual character that you want to draw (anything that can be passed into "text()")
