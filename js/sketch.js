@@ -76,21 +76,84 @@ function draw() {
   rectMode(CENTER);
   text(mouseY, mouseX/2, mouseY/2);
   text(mouseX, mouseX/2, mouseY/2 + 50);
-  // Gacha Machine Drawing
-  
-  //translate(camera.centerX, camera.centerY, camera.centerZ - 500);
-  //translate(camera.eyeX, camera.eyeY, (camera.eyeZ - 1000));
-  push();
-  noStroke();
 
-  fill(255, 50, 50);
-  translate(0, -40, 0);
-  box(30);
-  translate(0, 40, 0);
+  // Draw the Gacha Machine
+  gachaMachine.draw();
+}
 
-  fill(255, 0, 0, 255);
-  lights();
-  cylinder(50, 100);
+function mousePressed() {
+  gachaMachine.handleMousePressed(mouseX, mouseY);
+}
+
+function mouseDragged() {
+  const xShift = (mouseY - pmouseY) / 100;
+  const yShift = (mouseX - pmouseX) / 100;
+  gachaMachine.rotateItem(xShift, yShift);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  background('#3C2350');
+}
+
+class GachaMachine {
+  constructor() {
+    this.rollclick = 0;
+    this.item = new Gacha();
+    this.shape = this.item.draw();
+    this.translation = { x: 0, y: -50, z: -200 }; // Translation properties
+    this.knob = { x: this.translation.x, y: this.translation.y - 25, z: this.translation.z + 50};
+  }
+
+  rerollShape() {
+    funnyName = generateFunnyName() + " \nRarity: " + gachaMachine.getRarity();
+    wordText = new Word3D(
+      funnyName,       // The actual character that you want to draw (anything that can be passed into "text()")
+      20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
+      0.4,     // The size of a unit "box()" making up part of the letter  
+      40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
+      false,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
+      myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
+      BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
+    );
+  }
+
+  getRarity() {
+    return this.item.getRarity();
+  }
+
+  handleMousePressed(x, y) {
+    if (x - 250 <= this.knob.x + 20 && x - 250 >= this.knob.x - 20 && y - 275 <= this.knob.y + 20 && y - 275 >= this.knob.y - 20) {
+      this.rollclick += 1;
+      this.rerollShape();
+    }
+    if (this.rollclick > 4) {
+      this.rollclick = 0;
+    }
+  }
+
+  rotateItem(xShift, yShift) {
+    this.item.rotateItem(xShift, yShift);
+    this.shape = this.item.draw();
+  }
+
+  setTranslation(x, y, z) {
+    this.translation.x = x;
+    this.translation.y = y;
+    this.translation.z = z;
+  }
+
+  draw() {
+    push();
+    translate(this.translation.x, this.translation.y, this.translation.z);
+    noStroke();
+    fill(255, 50, 50);
+    translate(0, -40, 0);
+    box(30);
+    translate(0, 40, 0);
+    fill(255, 0, 0, 255);
+    lights();
+    cylinder(50, 100);
 
   push();
   fill(150, 150, 150);
@@ -99,13 +162,13 @@ function draw() {
   cylinder(12, 1);
   pop();
 
-  push();
-  fill(150, 150, 150);
-  translate(0, -25, 50);
-  rotateZ(HALF_PI * rollclick);
-  cylinder(2.5, 20);
-  translate(0, 25, -50);
-  pop();
+    push();
+    fill(150, 150, 150);
+    translate(0, -25, 50);
+    rotateZ(HALF_PI * this.rollclick);
+    cylinder(2.5, 20);
+    translate(0, 25, -50);
+    pop();
 
   translate(0, 25, 50);
   box();
@@ -115,60 +178,7 @@ function draw() {
   translate(0, -5, -11);
   translate(0, -125, -50);
 
-  translate(13.33, -12.69, 46.49);
-  fill(255, 255, 0);
-  sphere(15);
-  translate(-13.33, 12.69, -46.49);
-
-  translate(1.88, -37.26, 33.29);
-  fill(255, 0, 255);
-  sphere(15);
-  translate(-1.88, 37.26, -33.29);
-
-  translate(34.38, -30.29, 20.01);
-  fill(0, 255, 255);
-  sphere(15);
-  translate(-34.38, 30.29, -20.01);
-
-  translate(37.34, 22.93, 24.08);
-  fill(0, 255, 0);
-  sphere(15);
-  translate(-37.34, -22.93, -24.08);
-
-  translate(12.83, 27.08, 40.02);
-  fill(0, 0, 255);
-  sphere(15);
-  translate(-12.83, -27.08, -40.02);
-
-  translate(38.45, -3.47, 31.77);
-  fill(0, 150, 150);
-  sphere(15);
-  translate(-38.45, 3.47, -31.77);
-
-  translate(-9.52, 10.77, 47.89);
-  fill(150, 150, 0);
-  sphere(15);
-  translate(9.52, -10.77, -47.89);
-//
-  translate(-17.15, -18.04, 43.36);
-  fill(150, 0, 150);
-  sphere(15);
-  translate(17.15, 18.04, -43.36);
-
-  translate(-24.38, -37.39, 22.53);
-  fill(0, 150, 150);
-  sphere(15);
-  translate(24.38, 37.39, -22.53);
-
-  translate(-42.59, -6.15, 25.46);
-  fill(0, 150, 150);
-  sphere(15);
-  translate(42.59, 6.15, -25.46);
-
-  translate(-45.11, 21.25, 3.72);
-  fill(150, 150, 150);
-  sphere(15);
-  translate(45.11, -21.25, -3.72);
+    this.drawSpheres();
 
   translate(-9.76, 39.19, 29.47);
   fill(150, 0, 150);
