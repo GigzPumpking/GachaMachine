@@ -11,13 +11,9 @@
 
 /* global generateGrid drawGrid */
 
-let test;
-let shape;
+let gachaMachine;
 let funnyName;
-let camera;
-let rollclick = 0;
 let myFont;
-let letterModels = [];
 let wordText;
 
 function preload() {
@@ -31,53 +27,23 @@ function setup() {
 
   createElement("br").parent("canvas-container");
 
-  let reroll = createButton();
-  reroll.html("Reroll");
-  reroll.parent("canvas-container");
-  reroll.mousePressed(rerollShape);
-
   textAlign(CENTER, CENTER);
   textSize(1);
   textFont(myFont);
 
-  rerollShape();
+  gachaMachine = new GachaMachine();
+  console.log("Knob stuff " + gachaMachine.knob.x, gachaMachine.knob.y, gachaMachine.knob.z);
 
-  camera = createCamera();
-}
-
-function rerollShape() {
-  test = new Gacha();
-  funnyName = generateFunnyName() + " \nRarity: " + test.getRarity();
-  wordText = new Word3D(
-  	funnyName,       // The actual character that you want to draw (anything that can be passed into "text()")
-  	20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
-  	0.4,     // The size of a unit "box()" making up part of the letter  
-  	40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
-  	false,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
-  	myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
-  	BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
-	);
-  shape = test.draw();
-  
-}
-
-function mousePressed(){
-  if(mouseX <= 270 && mouseX >= 230){
-    if(mouseY <= 230 && mouseY >= 200){
-      rollclick += 1;
-    }
-  }
-  if(rollclick > 4){
-    rollclick = 0;
-  }
+  gachaMachine.rerollShape();
 }
 
 function draw() {
   background('#3C2350');
   lights();
+
   // Move the 3D text forward along the z-axis
   push();
-  translate(0, 20, 85); // Adjust the z value as needed to move the text forward
+  translate(0, 150, 85); // Adjust the z value as needed to move the text forward
   wordText.show();
   pop();
 
@@ -88,279 +54,171 @@ function draw() {
   rectMode(CENTER);
   text(mouseY, mouseX/2, mouseY/2);
   text(mouseX, mouseX/2, mouseY/2 + 50);
-  // Gacha Machine Drawing
-  
-  //translate(camera.centerX, camera.centerY, camera.centerZ - 500);
-  //translate(camera.eyeX, camera.eyeY, (camera.eyeZ - 1000));
-  push();
-  noStroke();
 
-  fill(255, 50, 50);
-  translate(0, -40, 0);
-  box(30);
-  translate(0, 40, 0);
+  // Draw the Gacha Machine
+  gachaMachine.draw();
+}
 
-  fill(255, 0, 0, 255);
-  lights();
-  cylinder(50, 100);
-
-  push();
-  fill(150, 150, 150);
-  translate(0, -25, 50);
-  rotateX(HALF_PI);
-  cylinder(12, 1);
-  pop();
-
-  push();
-  fill(150, 150, 150);
-  translate(0, -25, 50);
-  rotateZ(HALF_PI * rollclick);
-  cylinder(2.5, 20);
-  translate(0, 25, -50);
-  pop();
-
-  translate(0, 25, 50);
-  box();
-  translate(0, 5, 11);
-  fill(255, 255, 255);
-  box(30);
-  translate(0, -5, -11);
-  translate(0, -125, -50);
-
-  translate(13.33, -12.69, 46.49);
-  fill(255, 255, 0);
-  sphere(15);
-  translate(-13.33, 12.69, -46.49);
-
-  translate(1.88, -37.26, 33.29);
-  fill(255, 0, 255);
-  sphere(15);
-  translate(-1.88, 37.26, -33.29);
-
-  translate(34.38, -30.29, 20.01);
-  fill(0, 255, 255);
-  sphere(15);
-  translate(-34.38, 30.29, -20.01);
-
-  translate(37.34, 22.93, 24.08);
-  fill(0, 255, 0);
-  sphere(15);
-  translate(-37.34, -22.93, -24.08);
-
-  translate(12.83, 27.08, 40.02);
-  fill(0, 0, 255);
-  sphere(15);
-  translate(-12.83, -27.08, -40.02);
-
-  translate(38.45, -3.47, 31.77);
-  fill(0, 150, 150);
-  sphere(15);
-  translate(-38.45, 3.47, -31.77);
-
-  translate(-9.52, 10.77, 47.89);
-  fill(150, 150, 0);
-  sphere(15);
-  translate(9.52, -10.77, -47.89);
-//
-  translate(-17.15, -18.04, 43.36);
-  fill(150, 0, 150);
-  sphere(15);
-  translate(17.15, 18.04, -43.36);
-
-  translate(-24.38, -37.39, 22.53);
-  fill(0, 150, 150);
-  sphere(15);
-  translate(24.38, 37.39, -22.53);
-
-  translate(-42.59, -6.15, 25.46);
-  fill(0, 150, 150);
-  sphere(15);
-  translate(42.59, 6.15, -25.46);
-
-  translate(-45.11, 21.25, 3.72);
-  fill(150, 150, 150);
-  sphere(15);
-  translate(45.11, -21.25, -3.72);
-
-  translate(-9.76, 39.19, 29.47);
-  fill(150, 0, 150);
-  sphere(15);
-  translate(9.76, -39.19, -29.47);
-
-  translate(-32.47, 22.36, 30.75);
-  fill(250, 0, 150);
-  sphere(15);
-  translate(32.47, -22.36, -30.75);
-
-  translate(18.84, 35.44, 8.95);
-  fill(250, 50, 250);
-  sphere(15);
-  translate(-18.84, -35.44, -8.95);
-
-  translate(-34.02, -35.42, -9.39);
-  fill(50, 250, 250);
-  sphere(15);
-  translate(34.02, 35.42, 9.39);
-
-  translate(-49.2, -6.86, -5.7);
-  fill(250, 250, 50);
-  sphere(15);
-  translate(49.2, 6.86, 5.7);
-
-  translate(-3.18, -31.3, -38.86);
-  fill(50, 250, 250);
-  sphere(15);
-  translate(3.18, 31.3, 38.86);
-
-  translate(28.24, -28.88, -29.47);
-  fill(255, 50, 0);
-  sphere(15);
-  translate(-28.24, 28.88, 29.47);
-
-  translate(23.48, -43.94, -4.18);
-  fill(55, 250, 0);
-  sphere(15);
-  translate(-23.48, 43.94, 4.18);
-
-  translate(-8.45, -49.28, 0);
-  fill(255, 250, 0);
-  sphere(15);
-  translate(8.45, 49.28, 0);
-
-  translate(46.36, -17.19, -7.43);
-  fill(55, 250, 55);
-  sphere(15);
-  translate(-46.36, 17.19, 7.43);
-
-  translate(47.1, 15.26, -7.01);
-  fill(0, 0, 255);
-  sphere(15);
-  translate(-47.1, -15.26, 7.01);
-
-  translate(33.71, 16.31, -33.13);
-  fill(255, 250, 0);
-  sphere(15);
-  translate(-33.71, -16.31, 33.13);
-
-  translate(33.71, 16.31, -33.13);
-  fill(55, 250, 255);
-  sphere(15);
-  translate(-33.71, -16.31, 33.13);
-
-  translate(7.92, 30.19, -39.06);
-  fill(255, 255, 0);
-  sphere(15);
-  translate(-7.92, -30.19, 39.06);
-
-  translate(-21.49, 34.3, -29.35);
-  fill(55, 50, 50);
-  sphere(15);
-  translate(21.49, -34.3, 29.35);
-
-  translate(-38.36, 7.51, -32.18);
-  fill(255, 255, 255);
-  sphere(15);
-  translate(38.36, -7.51, 32.18);
-
-  translate(-5.58, 3.95, -49.53);
-  fill(255, 50, 125);
-  sphere(15);
-  translate(5.58, -3.95, 49.53);
-
-  translate(18.82, -4.52, -46.1);
-  fill(155, 150, 200);
-  sphere(15);
-  translate(-18.82, 4.52, 46.1);
-
-  translate(-30.33, -21.55, -33.4);
-  fill(255, 250, 0);
-  sphere(15);
-  translate(30.33, 21.55, 33.4);
-
-  translate(-14.7, -26.12, 1.38);
-  fill(55, 250, 0);
-  sphere(15);
-  translate(14.7, 26.12, -1.38);
-
-  translate(15.75, -25.53, 0);
-  fill(55, 255, 255);
-  sphere(15);
-  translate(-15.75, 25.53, 0);
-
-  translate(28.23, 0.6, 10.12);
-  fill(55, 0, 250);
-  sphere(15);
-  translate(-28.23, -0.6, -10.12);
-
-  translate(16.59, 24.61, 4.35);
-  fill(250, 55, 0);
-  sphere(15);
-  translate(-16.59, -24.61, -4.35);
-
-  translate(22.23, 2.92, -19.93);
-  fill(0, 55, 250);
-  sphere(15);
-  translate(-22.23, -2.92, 19.93);
-
-  translate(0.96, -15.95, -25.39);
-  fill(55, 250, 250);
-  sphere(15);
-  translate(-0.96, 15.95, 25.39);
-
-  translate(-23.87, -1.13, -18.14);
-  fill(255, 50, 100);
-  sphere(15);
-  translate(23.87, 1.13, 18.14);
-
-  translate(-2.61, 17.66, -24.11);
-  fill(155, 150, 0);
-  sphere(15);
-  translate(2.61, -17.66, 24.11);
-
-  translate(-15.31, 25.68, 2.43);
-  fill(55, 250, 0);
-  sphere(15);
-  translate(15.31, -25.68, -2.43);
-
-  translate(-27.33, 0.24, 12.37);
-  fill(200, 200, 100);
-  sphere(15);
-  translate(27.33, -0.24, -12.37);
-
-  translate(2.21, -15.8, 25.4);
-  fill(55, 250, 0);
-  sphere(15);
-  translate(-2.21, 15.8, -25.4);
-
-  translate(-0.51, 14.82, 26.08);
-  fill(155, 250, 100);
-  sphere(15);
-  translate(0.51, -14.82, -26.08);
-
-  fill(250, 250, 0);
-  sphere(15);
-
-  fill(255, 255, 255, 100);
-  sphere(66);
-
-  fill(250, 250, 250, 100);
-  sphere(70);
-  translate(0, 125, 50);
-  pop();
-  //translate(-camera.eyeX, -camera.eyeY, -(camera.eyeZ - 1000));
-  //translate(-camera.centerX, -camera.centerY, -camera.centerZ - 500);
-  
-  model(shape);
+function mousePressed() {
+  gachaMachine.handleMousePressed(mouseX, mouseY);
 }
 
 function mouseDragged() {
-  const xShift = (mouseY - pmouseY)/100
-  const yShift = (mouseX - pmouseX)/100
-  test.rotateItem(xShift, yShift);
-  shape = test.draw()
+  const xShift = (mouseY - pmouseY) / 100;
+  const yShift = (mouseX - pmouseX) / 100;
+  gachaMachine.rotateItem(xShift, yShift);
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   background('#3C2350');
+}
+
+class GachaMachine {
+  constructor() {
+    this.rollclick = 0;
+    this.item = new Gacha();
+    this.shape = this.item.draw();
+    this.translation = { x: 0, y: -50, z: -200 }; // Translation properties
+    this.knob = { x: this.translation.x, y: this.translation.y - 25, z: this.translation.z + 50};
+  }
+
+  rerollShape() {
+    funnyName = generateFunnyName() + " \nRarity: " + gachaMachine.getRarity();
+    wordText = new Word3D(
+      funnyName,       // The actual character that you want to draw (anything that can be passed into "text()")
+      20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
+      0.4,     // The size of a unit "box()" making up part of the letter  
+      40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
+      false,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
+      myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
+      BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
+    );
+  }
+
+  getRarity() {
+    return this.item.getRarity();
+  }
+
+  handleMousePressed(x, y) {
+    if (x - 250 <= this.knob.x + 20 && x - 250 >= this.knob.x - 20 && y - 275 <= this.knob.y + 20 && y - 275 >= this.knob.y - 20) {
+      this.rollclick += 1;
+      this.rerollShape();
+    }
+    if (this.rollclick > 4) {
+      this.rollclick = 0;
+    }
+  }
+
+  rotateItem(xShift, yShift) {
+    this.item.rotateItem(xShift, yShift);
+    this.shape = this.item.draw();
+  }
+
+  setTranslation(x, y, z) {
+    this.translation.x = x;
+    this.translation.y = y;
+    this.translation.z = z;
+  }
+
+  draw() {
+    push();
+    translate(this.translation.x, this.translation.y, this.translation.z);
+    noStroke();
+    fill(255, 50, 50);
+    translate(0, -40, 0);
+    box(30);
+    translate(0, 40, 0);
+    fill(255, 0, 0, 255);
+    lights();
+    cylinder(50, 100);
+
+    push();
+    fill(150, 150, 150);
+    translate(0, -25, 50);
+    rotateX(HALF_PI);
+    cylinder(12, 1);
+    pop();
+
+    push();
+    fill(150, 150, 150);
+    translate(0, -25, 50);
+    rotateZ(HALF_PI * this.rollclick);
+    cylinder(2.5, 20);
+    translate(0, 25, -50);
+    pop();
+
+    translate(0, 25, 50);
+    box();
+    translate(0, 5, 11);
+    fill(255, 255, 255);
+    box(30);
+    translate(0, -5, -11);
+    translate(0, -125, -50);
+
+    this.drawSpheres();
+
+    fill(250, 250, 250, 100);
+    sphere(70);
+    translate(0, 125, 50);
+    pop();
+
+    model(this.shape);
+  }
+
+  drawSpheres() {
+    const positions = [
+      { x: 13.33, y: -12.69, z: 46.49, color: [255, 255, 0] },
+      { x: 1.88, y: -37.26, z: 33.29, color: [255, 0, 255] },
+      { x: 34.38, y: -30.29, z: 20.01, color: [0, 255, 255] },
+      { x: 37.34, y: 22.93, z: 24.08, color: [0, 255, 0] },
+      { x: 12.83, y: 27.08, z: 40.02, color: [0, 0, 255] },
+      { x: 38.45, y: -3.47, z: 31.77, color: [0, 150, 150] },
+      { x: -9.52, y: 10.77, z: 47.89, color: [150, 150, 0] },
+      { x: -17.15, y: -18.04, z: 43.36, color: [150, 0, 150] },
+      { x: -24.38, y: -37.39, z: 22.53, color: [0, 150, 150] },
+      { x: -42.59, y: -6.15, z: 25.46, color: [0, 150, 150] },
+      { x: -45.11, y: 21.25, z: 3.72, color: [150, 150, 150] },
+      { x: -9.76, y: 39.19, z: 29.47, color: [150, 0, 150] },
+      { x: -32.47, y: 22.36, z: 30.75, color: [250, 0, 150] },
+      { x: 18.84, y: 35.44, z: 8.95, color: [250, 50, 250] },
+      { x: -34.02, y: -35.42, z: -9.39, color: [50, 250, 250] },
+      { x: -49.2, y: -6.86, z: -5.7, color: [250, 250, 50] },
+      { x: -3.18, y: -31.3, z: -38.86, color: [50, 250, 250] },
+      { x: 28.24, y: -28.88, z: -29.47, color: [255, 50, 0] },
+      { x: 23.48, y: -43.94, z: -4.18, color: [55, 250, 0] },
+      { x: -8.45, y: -49.28, z: 0, color: [255, 250, 0] },
+      { x: 46.36, y: -17.19, z: -7.43, color: [55, 250, 55] },
+      { x: 47.1, y: 15.26, z: -7.01, color: [0, 0, 255] },
+      { x: 33.71, y: 16.31, z: -33.13, color: [255, 250, 0] },
+      { x: 33.71, y: 16.31, z: -33.13, color: [55, 250, 255] },
+      { x: 7.92, y: 30.19, z: -39.06, color: [255, 255, 0] },
+      { x: -21.49, y: 34.3, z: -29.35, color: [55, 50, 50] },
+      { x: -38.36, y: 7.51, z: -32.18, color: [255, 255, 255] },
+      { x: -5.58, y: 3.95, z: -49.53, color: [255, 50, 125] },
+      { x: 18.82, y: -4.52, z: -46.1, color: [155, 150, 200] },
+      { x: -30.33, y: -21.55, z: -33.4, color: [255, 250, 0] },
+      { x: -14.7, y: -26.12, z: 1.38, color: [55, 250, 0] },
+      { x: 15.75, y: -25.53, z: 0, color: [55, 255, 255] },
+      { x: 28.23, y: 0.6, z: 10.12, color: [55, 0, 250] },
+      { x: 16.59, y: 24.61, z: 4.35, color: [250, 55, 0] },
+      { x: 22.23, y: 2.92, z: -19.93, color: [0, 55, 250] },
+      { x: 0.96, y: -15.95, z: -25.39, color: [55, 250, 250] },
+      { x: -23.87, y: -1.13, z: -18.14, color: [255, 50, 100] },
+      { x: -2.61, y: 17.66, z: -24.11, color: [155, 150, 0] },
+      { x: -15.31, y: 25.68, z: 2.43, color: [55, 250, 0] },
+      { x: -27.33, y: 0.24, z: 12.37, color: [200, 200, 100] },
+      { x: 2.21, y: -15.8, z: 25.4, color: [55, 250, 0] },
+      { x: -0.51, y: 14.82, z: 26.08, color: [155, 250, 100] },
+      { x: 0, y: 0, z: 0, color: [250, 250, 0] }
+    ];
+
+    for (let pos of positions) {
+      push();
+      translate(pos.x, pos.y, pos.z);
+      fill(...pos.color);
+      sphere(15);
+      pop();
+    }
+  }
 }

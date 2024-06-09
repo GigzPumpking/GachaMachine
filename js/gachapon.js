@@ -114,6 +114,9 @@ class Gacha {
     beginGeometry();
 
     push();
+
+    translate(0, 80, 0);
+
     // Rotates the object
     rotateX(this.xAngle)
     rotateY(this.yAngle)
