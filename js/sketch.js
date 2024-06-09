@@ -12,6 +12,7 @@
 /* global generateGrid drawGrid */
 
 let gachaMachine;
+let gachaMachine;
 let funnyName;
 let myFont;
 let wordText;
@@ -84,6 +85,8 @@ class GachaMachine {
   }
 
   rerollShape() {
+    this.item = new Gacha();
+    this.shape = this.item.draw();
     funnyName = generateFunnyName() + " \nRarity: " + gachaMachine.getRarity();
     wordText = new Word3D(
       funnyName,       // The actual character that you want to draw (anything that can be passed into "text()")
@@ -102,10 +105,8 @@ class GachaMachine {
 
   handleMousePressed(x, y) {
     if (x - 250 <= this.knob.x + 20 && x - 250 >= this.knob.x - 20 && y - 275 <= this.knob.y + 20 && y - 275 >= this.knob.y - 20) {
-      if(this.rollclick%2 == 1){
-        this.rerollShape();
-      }
       this.rollclick += 1;
+      this.rerollShape();
     }
     if (this.rollclick > 4) {
       this.rollclick = 0;
@@ -153,12 +154,9 @@ class GachaMachine {
     translate(0, 25, 50);
     box();
     translate(0, 5, 11);
-    fill(0, 0, 0);
-    box(30);
-    translate(0, 0, 15);
     fill(255, 255, 255);
-    box(30, 30, 1);
-    translate(0, -5, -26);
+    box(30);
+    translate(0, -5, -11);
     translate(0, -125, -50);
 
     this.drawSpheres();
