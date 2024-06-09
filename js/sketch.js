@@ -23,6 +23,7 @@ let test;
 let shape;
 let funnyName;
 let camera;
+let rollclick = 0;
 
 function preload() {
   myFont = loadFont('assets/Roboto-Regular.ttf');
@@ -55,13 +56,26 @@ function rerollShape() {
   funnyName = generateFunnyName() + " \nRarity: " + test.getRarity();
 }
 
+function mousePressed(){
+  if(mouseX <= 270 && mouseX >= 230){
+    if(mouseY <= 230 && mouseY >= 200){
+      rollclick += 1;
+    }
+  }
+  if(rollclick > 4){
+    rollclick = 0;
+  }
+}
+
 function draw() {
   background(50);
 
   // Text Drawing
   fill(255);
   text(funnyName, -200, 0, 400, 400);
-  
+  rectMode(CENTER);
+  text(mouseY, mouseX/2, mouseY/2);
+  text(mouseX, mouseX/2, mouseY/2 + 50);
   // Gacha Machine Drawing
   
   //translate(camera.centerX, camera.centerY, camera.centerZ - 500);
@@ -77,6 +91,21 @@ function draw() {
   fill(255, 0, 0, 255);
   lights();
   cylinder(50, 100);
+
+  push();
+  fill(150, 150, 150);
+  translate(0, -25, 50);
+  rotateX(HALF_PI);
+  cylinder(12, 1);
+  pop();
+
+  push();
+  fill(150, 150, 150);
+  translate(0, -25, 50);
+  rotateZ(HALF_PI * rollclick);
+  cylinder(2.5, 20);
+  translate(0, 25, -50);
+  pop();
 
   translate(0, 25, 50);
   box();
