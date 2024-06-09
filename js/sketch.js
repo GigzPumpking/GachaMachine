@@ -75,6 +75,12 @@ function draw() {
   */
   
   
-  orbitControl();
   model(shape);
+}
+
+function mouseDragged() {
+  const xShift = (mouseY - pmouseY)/100
+  const yShift = (mouseX - pmouseX)/100
+  test.rotateItem(xShift, yShift);
+  shape = test.draw()
 }

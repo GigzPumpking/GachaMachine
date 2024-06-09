@@ -86,7 +86,8 @@ class Gacha {
       this.rarity += genHatCol[1];
     }
 
-    console.log("Total Rarity: " + this.rarity);
+    this.xAngle = 0;
+    this.yAngle = 0;
   }
 
   regenerate() {
@@ -99,6 +100,13 @@ class Gacha {
     return this.rarity;
   }
 
+  // Rotates the obect by (horizontal, verticle)
+  rotateItem(x, y) {
+    this.xAngle += x;
+    this.yAngle += y;
+    //this.draw()
+  }
+
   draw() {
     noStroke();
 
@@ -106,6 +114,9 @@ class Gacha {
     beginGeometry();
 
     push();
+    // Rotates the object
+    rotateX(this.xAngle)
+    rotateY(this.yAngle)
 
     // Creates the base of the object
     fill(this.baseColor);
