@@ -11,17 +11,12 @@
 
 /* global generateGrid drawGrid */
 
-function resizeScreen() {
-  centerHorz = canvasContainer.width() / 2; // Adjusted for drawing logic
-  centerVert = canvasContainer.height() / 2; // Adjusted for drawing logic
-  console.log("Resizing...");
-  resizeCanvas(canvasContainer.width(), canvasContainer.height());
-  // redrawCanvas(); // Redraw everything based on new size
-}
-
 let test;
 let shape;
 let funnyName;
+let myFont;
+let letterModels = [];
+let wordText;
 
 function preload() {
   myFont = loadFont('assets/Roboto-Regular.ttf');
@@ -40,7 +35,7 @@ function setup() {
   reroll.mousePressed(rerollShape);
 
   textAlign(CENTER, CENTER);
-  textSize(20);
+  textSize(1);
   textFont(myFont);
 
   rerollShape();
@@ -48,17 +43,29 @@ function setup() {
 
 function rerollShape() {
   test = new Gacha();
-  shape = test.draw();
   funnyName = generateFunnyName() + " \nRarity: " + test.getRarity();
+  wordText = new Word3D(
+  	funnyName,       // The actual character that you want to draw (anything that can be passed into "text()")
+  	20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
+  	0.4,     // The size of a unit "box()" making up part of the letter  
+  	40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
+  	true,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
+  	myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
+  	BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
+	);
+  shape = test.draw();
+  
 }
 
 function draw() {
-  background(50);
+  background('#3C2350');
+  lights();
+  // Move the 3D text forward along the z-axis
+  push();
+  translate(0, 20, 75); // Adjust the z value as needed to move the text forward
+  wordText.show();
+  pop();
 
-  // Text Drawing
-  fill(255);
-  text(funnyName, -200, 0, 400, 400);
-  
   // Gacha Machine Drawing
   /*
   rectMode(CENTER);
@@ -73,8 +80,12 @@ function draw() {
   translate(0, -100, -50);
   sphere(70);
   */
-  
-  
+
   orbitControl();
   model(shape);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  background('#3C2350');
 }
