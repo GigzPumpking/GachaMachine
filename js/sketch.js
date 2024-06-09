@@ -155,7 +155,7 @@ class GachaMachine {
     translate(0, 5, 11);
     fill(0, 0, 0);
     box(30);
-    translate(0, 0, -15);
+    translate(0, 0, 15);
     fill(255, 255, 255);
     box(30, 30, 1);
     translate(0, -5, -26);
