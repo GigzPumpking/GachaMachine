@@ -62,7 +62,7 @@ function draw() {
   lights();
   // Move the 3D text forward along the z-axis
   push();
-  translate(0, 20, 75); // Adjust the z value as needed to move the text forward
+  translate(0, 20, 85); // Adjust the z value as needed to move the text forward
   wordText.show();
   pop();
 
