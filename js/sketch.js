@@ -1,6 +1,7 @@
 let gachaMachine;
 let myFont;
 let wordText;
+let wordText2;
 let running = false;
 let currentP5Instance;
 let obtained = [];
@@ -95,9 +96,11 @@ function draw() {
   
     // Move the 3D text forward along the z-axis
     push();
-    translate(0, 150, 85); // Adjust the z value as needed to move the text forward
     if (gachaMachine.item.visible) {
+      translate(0, 160, 85); // Adjust the z value as needed to move the text forward
       wordText.show();
+      translate(0, 30, 0);
+      wordText2.show();
     }
     pop();
   
@@ -130,10 +133,21 @@ function windowResized() {
 }
 
 function adjustWordText() {
-  let statement = "You got a " + gachaMachine.item.name + "!" + " \nRarity: " + gachaMachine.getRarity();
+  let statement = "You got a " + gachaMachine.item.name + "!";
+  let statement2 = "Rarity: " + gachaMachine.item.rarity;
     
   wordText = new Word3D(
     statement,       // The actual character that you want to draw (anything that can be passed into "text()")
+    20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
+    0.4,     // The size of a unit "box()" making up part of the letter  
+    40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
+    false,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
+    myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
+    BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
+  );
+
+  wordText2 = new Word3D(
+    statement2,       // The actual character that you want to draw (anything that can be passed into "text()")
     20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
     0.4,     // The size of a unit "box()" making up part of the letter  
     40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
@@ -265,10 +279,10 @@ class GachaMachine {
         dropdown.option(this.item.name);
 
         if (this.getRarity() == 0){
-          bg = '#eadada'
+          bg = '#ad9697'
         }
         else if (this.getRarity() == 1){
-          bg = '#FFF999'
+          bg = '#e2dd8e'
         }
         else if (this.getRarity() == 2){
           bg = '#111999'
