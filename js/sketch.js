@@ -83,6 +83,7 @@ function actualSetup() {
       gachaMachine.shape = item.draw();
       gachaMachine.item.visible = true;
       adjustWordText();
+      updateBG(gachaMachine.getRarity());
     }
   });
 
@@ -155,6 +156,39 @@ function adjustWordText() {
     myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
     BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
   );
+}
+
+function updateBG(rarity) {
+  if (rarity == 0){
+    bg = '#ad9697'
+  }
+  else if (rarity == 1){
+    bg = '#e2dd8e'
+  }
+  else if (rarity == 2){
+    bg = '#111999'
+  }
+  else if (rarity == 3){
+    bg = '#cc4343'
+  }
+  else if (rarity == 4){
+    bg = '#e2db6f'        
+  }
+  else if (rarity == 5){
+    bg = '#5ebc5e'
+  }
+  else if (rarity == 6){
+    bg = '#220fff'
+  }
+  else if (rarity == 7){
+    bg = '#3C2350'
+  }
+  else if (rarity == 8){
+    bg = '#27a31c'
+  }
+  else if (rarity == 9){
+    bg = '#000000'
+  }
 }
 
 class GachaMachine {
@@ -278,36 +312,7 @@ class GachaMachine {
         obtained.push(this.item);
         dropdown.option(this.item.name);
 
-        if (this.getRarity() == 0){
-          bg = '#ad9697'
-        }
-        else if (this.getRarity() == 1){
-          bg = '#e2dd8e'
-        }
-        else if (this.getRarity() == 2){
-          bg = '#111999'
-        }
-        else if (this.getRarity() == 3){
-          bg = '#cc4343'
-        }
-        else if (this.getRarity() == 4){
-          bg = '#e2db6f'        
-        }
-        else if (this.getRarity() == 5){
-          bg = '#5ebc5e'
-        }
-        else if (this.getRarity() == 6){
-          bg = '#220fff'
-        }
-        else if (this.getRarity() == 7){
-          bg = '#3C2350'
-        }
-        else if (this.getRarity() == 8){
-          bg = '#27a31c'
-        }
-        else if (this.getRarity() == 9){
-          bg = '#000000'
-        }
+        updateBG(this.getRarity());
 
         if (this.getRarity() <= 2) {
           commonSfx.play();
