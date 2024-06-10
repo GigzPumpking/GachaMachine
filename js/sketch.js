@@ -1,27 +1,22 @@
-// sketch.js - purpose and description here
-// Author: Your Name
-// Date:
-
-// Here is how you might set up an OOP p5.js project
-// Note that p5.js looks for a file called sketch.js
-
-// Globals
-
-/* exported preload, setup, draw, placeTile */
-
-/* global generateGrid drawGrid */
-
 let gachaMachine;
 let funnyName;
 let myFont;
 let wordText;
+let running = false;
+let currentP5Instance;
 
 function preload() {
   myFont = loadFont('assets/Roboto-Regular.ttf');
+  pixelFont = loadFont('assets/04B_30__.TTF');
 }
 
 function setup() {
   canvasContainer = $("#canvas-container");
+
+  currentP5Instance = new p5(scene1);
+}
+
+function actualSetup() {
   let canvas = createCanvas(500, 500, WEBGL);
   canvas.parent("canvas-container");
 
@@ -42,29 +37,39 @@ function setup() {
 }
 
 function draw() {
-  background('#3C2350');
-  lights();
-
-  // Move the 3D text forward along the z-axis
-  push();
-  translate(0, 150, 85); // Adjust the z value as needed to move the text forward
-  if (gachaMachine.item.visible) {
-    wordText.show();
+  if (running) {
+    background('#3C2350');
+    lights();
+  
+    // Move the 3D text forward along the z-axis
+    push();
+    translate(0, 150, 85); // Adjust the z value as needed to move the text forward
+    if (gachaMachine.item.visible) {
+      wordText.show();
+    }
+    pop();
+  
+    // Draw the Gacha Machine
+    gachaMachine.draw();
   }
-  pop();
-
-  // Draw the Gacha Machine
-  gachaMachine.draw();
 }
 
 function mousePressed() {
-  gachaMachine.handleMousePressed(mouseX, mouseY);
+  if (running) {
+    gachaMachine.handleMousePressed(mouseX, mouseY);
+  } else {
+    currentP5Instance.remove();
+    running = true;
+    actualSetup();
+  }
 }
 
 function mouseDragged() {
-  const xShift = (mouseY - pmouseY) / 100;
-  const yShift = (mouseX - pmouseX) / 100;
-  gachaMachine.rotateItem(xShift, yShift);
+  if (running) {
+    const xShift = (mouseY - pmouseY) / 100;
+    const yShift = (mouseX - pmouseX) / 100;
+    gachaMachine.rotateItem(xShift, yShift);
+  }
 }
 
 function windowResized() {
