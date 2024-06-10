@@ -44,16 +44,18 @@ function actualSetup() {
   canvas.position(windowWidth / 2 - width / 2, windowHeight / 2 - height / 2 - 40);
   canvas.parent("canvas-container");
 
-  rollingSfx = loadSound('../assets/gumball.mp3', soundLoaded);
+  soundFormats('mp3', 'ogg');
+
+  rollingSfx = loadSound('./assets/gumball.mp3', soundLoaded);
   rollingSfx.setVolume(1);
 
-  commonSfx = loadSound('../assets/common.mp3');
+  commonSfx = loadSound('./assets/common.mp3');
   commonSfx.setVolume(1);
 
-  rareSfx = loadSound('../assets/rare.mp3');
+  rareSfx = loadSound('./assets/rare.mp3');
   rareSfx.setVolume(1);
 
-  epicSfx = loadSound('../assets/epic.mp3');
+  epicSfx = loadSound('./assets/epic.mp3');
   epicSfx.setVolume(1);
 
   createElement("br").parent("canvas-container");
