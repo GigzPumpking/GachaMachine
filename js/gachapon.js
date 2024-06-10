@@ -65,6 +65,7 @@ class Gacha {
   constructor() {
     this.visible = false;
     this.generate();
+    this.name = generateFunnyName();
   }
 
   // Function to generate the actual object itself by adding characteristics

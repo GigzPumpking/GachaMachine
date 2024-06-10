@@ -1,9 +1,10 @@
 let gachaMachine;
-let funnyName;
 let myFont;
 let wordText;
 let running = false;
 let currentP5Instance;
+let obtained = [];
+let dropdown;
 
 function preload() {
   myFont = loadFont('assets/Roboto-Regular.ttf');
@@ -26,12 +27,29 @@ function actualSetup() {
   // add instructions
   createP("Click the knob to roll the gacha machine!").parent("canvas-container");
 
+  // Create inventory
+  let inventory = createP("Inventory: ").parent("canvas-container");
+  inventory.style("font-weight", "bold");
+  
+  // Create dropdown
+  dropdown = createSelect();
+  dropdown.parent(inventory);
+  dropdown.changed(() => {
+    const selected = dropdown.value();
+    const item = obtained.find((i) => i.name === selected);
+    if (item) {
+      gachaMachine.item = item;
+      gachaMachine.shape = item.draw();
+      gachaMachine.item.visible = true;
+      adjustWordText();
+    }
+  });
+
   textAlign(CENTER, CENTER);
   textSize(1);
   textFont(myFont);
 
   gachaMachine = new GachaMachine();
-  console.log("Knob stuff " + gachaMachine.knob.x, gachaMachine.knob.y, gachaMachine.knob.z);
 
   gachaMachine.rerollShape();
 }
@@ -77,6 +95,20 @@ function windowResized() {
   background('#3C2350');
 }
 
+function adjustWordText() {
+  let statement = "You got a " + gachaMachine.item.name + "!" + " \nRarity: " + gachaMachine.getRarity();
+    
+  wordText = new Word3D(
+    statement,       // The actual character that you want to draw (anything that can be passed into "text()")
+    20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
+    0.4,     // The size of a unit "box()" making up part of the letter  
+    40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
+    false,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
+    myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
+    BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
+  );
+}
+
 class GachaMachine {
   constructor() {
     this.rollclick = 0;
@@ -92,17 +124,7 @@ class GachaMachine {
   rerollShape() {
     this.item = new Gacha();
     this.shape = this.item.draw();
-    funnyName = generateFunnyName() + " \nRarity: " + gachaMachine.getRarity();
-    wordText = new Word3D(
-      funnyName,       // The actual character that you want to draw (anything that can be passed into "text()")
-      20,             // How thick the 3D rendered letter is (i.e. how many cube pixels of size "size" it is on z-axis)  
-      0.4,     // The size of a unit "box()" making up part of the letter  
-      40,            // The size of the canvas it renders the letter on (higher is more detailed, 30-40 is a good range)  
-      false,          // [OPTIONAL, default = true] Gives the bevelled, embossed 3D look (as seen in screenshot)  
-      myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
-      BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
-    );
-    
+    adjustWordText();
   }
 
   getRarity() {
@@ -138,7 +160,6 @@ class GachaMachine {
   }
 
   draw() {
-    console.log("gacha flag: " + this.gacha_flag);
     push();
     translate(this.translation.x, this.translation.y, this.translation.z);
     noStroke();
@@ -198,6 +219,9 @@ class GachaMachine {
         this.item.visible = true;
         this.gacha_flag = true;
         this.rolls = 0;
+
+        obtained.push(this.item);
+        dropdown.option(this.item.name);
       }
       if(this.rollclick%2 == 0){
         this.rolls = 0;

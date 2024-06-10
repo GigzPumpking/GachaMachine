@@ -24,7 +24,5 @@ function generateFunnyName() {
 
   // set text
 
-  return "You got a " + funnyName + "!";
-  
-  //text("You got a " + funnyName + "!", width / 2, height / 2);
+  return funnyName;
 }
