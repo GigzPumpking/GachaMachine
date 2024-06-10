@@ -12,21 +12,19 @@ let epicSfx;
 let bg = '#3C2350';
 
 function preload() {
-  myFont = loadFont('../assets/Roboto-Regular.ttf');
-  pixelFont = loadFont('../assets/04B_30__.TTF');
 
   // load sfx
   soundFormats('mp3', 'ogg');
-  rollingSfx = loadSound('../assets/gumball.mp3', soundLoaded);
+  rollingSfx = loadSound('./assets/gumball.mp3', soundLoaded);
   rollingSfx.setVolume(1);
   
-  commonSfx = loadSound('../assets/common.mp3');
+  commonSfx = loadSound('./assets/common.mp3');
   commonSfx.setVolume(1);
 
-  rareSfx = loadSound('../assets/rare.mp3');
+  rareSfx = loadSound('./assets/rare.mp3');
   rareSfx.setVolume(1);
 
-  epicSfx = loadSound('../assets/epic.mp3');
+  epicSfx = loadSound('./assets/epic.mp3');
   epicSfx.setVolume(1);
 }
 
