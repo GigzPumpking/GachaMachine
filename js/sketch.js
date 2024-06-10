@@ -163,16 +163,16 @@ function updateBG(rarity) {
     bg = '#ad9697'
   }
   else if (rarity == 1){
-    bg = '#e2dd8e'
+    bg = '#c69f03'
   }
   else if (rarity == 2){
-    bg = '#111999'
+    bg = '#c6158b'
   }
   else if (rarity == 3){
     bg = '#cc4343'
   }
   else if (rarity == 4){
-    bg = '#e2db6f'        
+    bg = '#9864e0'        
   }
   else if (rarity == 5){
     bg = '#5ebc5e'
@@ -202,6 +202,7 @@ class GachaMachine {
     this.gacha_flag = false;
     this.vibrating = true;
     this.canRoll = true;
+    this.isRolling = false;
   }
 
   rerollShape() {
@@ -221,6 +222,11 @@ class GachaMachine {
 
     if (x - 250 <= this.knob.x + 20 && x - 250 >= this.knob.x - 20 && y - 275 <= this.knob.y + 20 && y - 275 >= this.knob.y - 20) {
       this.rollclick += 1;
+
+      if (this.rollclick > 4) {
+        this.rollclick = 0;
+      }
+
       this.rerollShape();
       // hide the item
       this.item.hide();
@@ -229,10 +235,8 @@ class GachaMachine {
       else {
         this.vibrating = false;
         rollingSfx.play();
+        this.isRolling = true;
       }
-    }
-    if (this.rollclick > 4) {
-      this.rollclick = 0;
     }
   }
 
@@ -299,11 +303,12 @@ class GachaMachine {
       } else if (this.getRarity() == 9) {
         fill(255, 255, 255);
       }
-      if(this.rollclick%2 == 1 && this.rolls < 200 && this.gacha_flag == false) {
+      if(this.isRolling == true && this.rolls < 200 && this.gacha_flag == false) {
         this.canRoll = false;
         this.rolls += 1;
       }
       if(this.rolls >= 200){
+        this.isRolling = false;
         this.vibrating = false;
         this.item.visible = true;
         this.gacha_flag = true;
