@@ -49,11 +49,9 @@ function draw() {
 
   // Text Drawing
   fill(255);
-  text(funnyName, -200, 0, 400, 400);
+  //text(funnyName, -200, 0, 400, 400);
 
   rectMode(CENTER);
-  text(mouseY, mouseX/2, mouseY/2);
-  text(mouseX, mouseX/2, mouseY/2 + 50);
 
   // Draw the Gacha Machine
   gachaMachine.draw();
@@ -125,6 +123,7 @@ class GachaMachine {
   }
 
   draw() {
+    orbitControl();
     push();
     translate(this.translation.x, this.translation.y, this.translation.z);
     noStroke();
@@ -133,11 +132,14 @@ class GachaMachine {
     box(30);
     translate(0, 40, 0);
     fill(255, 0, 0, 255);
-    lights();
+    //lights();
     cylinder(50, 100);
 
     push();
-    fill(150, 150, 150);
+    ambientLight(60, 60, 60);
+    pointLight(255, 255, 255, 0, 0, 400);
+    emissiveMaterial(0, 255, 255);
+    //fill(150, 150, 150);
     translate(0, -25, 50);
     rotateX(HALF_PI);
     cylinder(12, 1);
@@ -145,6 +147,9 @@ class GachaMachine {
 
     push();
     fill(150, 150, 150);
+    ambientLight(60, 60, 60);
+    pointLight(255, 255, 255, 0, 0, 400);
+    emissiveMaterial(0, 255, 255);
     translate(0, -25, 50);
     rotateZ(HALF_PI * this.rollclick);
     cylinder(2.5, 20);
