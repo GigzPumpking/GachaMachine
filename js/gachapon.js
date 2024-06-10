@@ -3,7 +3,9 @@
  */
 
 //Base shape of object
-const BASES = ["box", "cylinder", "sphere", "torus", "face", "drone", "billy"];
+// "box", "cylinder", "sphere", "sphere2", "torus", "face", "drone", "billy", "pyramid", "mesh", "trippy", "trippy2", "trippy3"
+const BASES = ["box", "cylinder", "sphere", "sphere2", "torus", "face", "drone", "billy", "pyramid", "mesh", "trippy", "trippy2", "trippy3"];
+const BASES_WEIGHTS = [5, 5, 5, 2, 4, 1, 4, 4, 3, 3, 1, 1, 1];
 const COLORS = ["white", "red", "blue", "green", "gold"];
 const COLORS_WEIGHTS = [10, 3, 3, 3, 1];
 
@@ -74,7 +76,10 @@ class Gacha {
     this.size = floor(random(20, 100));
     this.rarity = 0;
 
+    // const genBase = randomWeighted(BASES, BASES_WEIGHTS);
     const genBaseCol = randomWeighted(COLORS, COLORS_WEIGHTS);
+    // this.base = genBase[0];
+    // this.rarity += genBase[1];
     this.baseColor = genBaseCol[0];
     this.rarity += genBaseCol[1];
 
@@ -132,6 +137,14 @@ class Gacha {
       case "sphere":
         sphere(this.size);
         break;
+      case "sphere2":
+        noFill();
+        stroke(0);
+        this.hat = "none";
+        push();
+        sphere(this.size);
+        pop();
+        break;
       case "cylinder": 
         cylinder(this.size / 2, this.size);
         break;
@@ -144,14 +157,19 @@ class Gacha {
       case "face":
         push();
         ellipse(0, 0, this.size, this.size);
-        fill("black");
         let eyeOffsetX = this.size / 4;
         let eyeOffsetY = -this.size / 6;
         let eyeSize = this.size / 10;
+        let smileRadius = this.size / 3;
+        let smileYOffset = this.size / 4;
 
-        fill(0); 
+        fill("black"); 
         ellipse(-eyeOffsetX, eyeOffsetY, eyeSize, eyeSize);
         ellipse(eyeOffsetX, eyeOffsetY, eyeSize, eyeSize);
+
+        stroke(1);
+        strokeWeight(2);
+        arc(0, smileYOffset, this.size/3, this.size/2, 0, PI);
 
         pop();
         break;
@@ -221,6 +239,109 @@ class Gacha {
         cylinder(headSize / 4, armLength);
         pop();
         break;
+      case "pyramid":
+        beginShape(TRIANGLES);
+        // front
+        vertex(0, -this.size, 0);
+        vertex(-this.size, this.size, this.size);
+        vertex(this.size, this.size, this.size);
+  
+        // right
+        vertex(0, -this.size, 0);
+        vertex(this.size, this.size, this.size);
+        vertex(this.size, this.size, -this.size);
+  
+        // back
+        vertex(0, -this.size, 0);
+        vertex(this.size, this.size, -this.size);
+        vertex(-this.size, this.size, -this.size);
+  
+        // left
+        vertex(0, -this.size, 0);
+        vertex(-this.size, this.size, -this.size);
+        vertex(-this.size, this.size, this.size);
+        translate(0, -20);
+        endShape(CLOSE);
+        break;        
+      case "mesh":
+        beginShape();
+        for (let u = 0; u < TWO_PI; u += 0.2) {
+          for (let v = 0; v < TWO_PI; v += 0.2) {
+            let x = this.size * cos(u) * (1 + 0.3 * cos(v));
+            let y = this.size * sin(u) * (1 + 0.3 * cos(v)) + (this.size * .75);
+            let z = this.size * 0.3 * sin(v);
+            vertex(x, y, z);
+          }
+        }
+        endShape(CLOSE);
+        break;
+      case "trippy":  
+        this.hat = "none"
+        this.rarity = 5; 
+        for (let i = 0; i < 20; i++) {
+          let angle = TWO_PI / 24 * i;
+          let tx = cos(angle) * this.size;
+          let ty = sin(angle) * this.size + (this.size*.75);
+          let tz = tan(angle) * this.size;
+
+          push();
+          translate(tx, ty, tz);
+          rotateZ(angle);
+          beginShape();
+          for (let i = 0; i <= this.size; i += 5) {
+            let wave = sin(i * 0.2 + frameCount * 0.3) * (this.size/5);
+            vertex(wave, i, 0);
+          }
+          endShape();
+          pop();
+        }
+        break;
+      case "trippy2":  
+        this.hat = "none";  
+        this.rarity = 5;  
+        for (let i = 0; i < 12; i++) {
+          let angle = TWO_PI / 12 * i;
+          let tx = cos(angle) * this.size;
+          let ty = sin(angle) * this.size + (this.size*.75);
+          let tz = sin(angle) * this.size;
+
+          push();
+          translate(tx, ty, tz);
+          rotateZ(angle);
+          beginShape();
+          for (let i = 0; i <= this.size; i += 4) {
+            let wave = sin(i * 0.1 + frameCount * .2) * (this.size/5);
+            vertex(wave, i, 0);
+            vertex(wave, -i, 10);
+          }
+          endShape();
+          pop();
+        }
+        break;
+      case "trippy3":
+        this.hat = "none";
+        this.size = 60;   
+        this.rarity = 5; 
+        for (let i = 0; i < 30; i++) {
+          let angle = TWO_PI / 25 * i;
+          let angle_squared = angle*angle;
+          let tx = angle_squared + sin(4*angle);
+          let ty = angle_squared + sin(4*angle);
+          let tz = angle_squared + sin(4*angle);
+
+          push();
+          translate(tx, ty, tz);
+          rotateZ(angle);
+          beginShape();
+          for (let i = 0; i <= this.size; i += 4) {
+            let wave = sin(i * 0.3 + frameCount * .3) * (this.size/5);
+            vertex(wave, i, 0);
+            vertex(wave, i, 20);
+          }
+          endShape();
+          pop();
+        }
+        break;    
     }
     // creates the hats of the object
     fill(this.hatColor);
