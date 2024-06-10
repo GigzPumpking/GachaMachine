@@ -89,6 +89,48 @@ function actualSetup() {
 
 function draw() {
   if (running) {
+    /*
+    if (gachaMachine.getRarity() == 0){
+      background('#FFFFFF')
+    }
+    if (gachaMachine.getRarity() == 1){
+      background('#FFF999')
+    
+    }
+    if (gachaMachine.getRarity() == 2){
+      background('#111999')
+    
+    }
+    if (gachaMachine.getRarity() == 3){
+      background('#cc4343')
+    
+    }
+    if (gachaMachine.getRarity() == 4){
+      background('#FFF000')
+    
+    }
+    if (gachaMachine.getRarity() == 5){
+      background('#FFF000')
+    
+    }
+    if (gachaMachine.getRarity() == 6){
+      background('#220fff')
+    
+    }
+    if (gachaMachine.getRarity() == 7){
+      background('#3C2350')
+    
+    }
+    if (gachaMachine.getRarity() == 8){
+      background('#27a31c')
+    
+    }
+    if (gachaMachine.getRarity() == 9){
+      background('#000000')
+    
+    }
+    */
+
     background('#3C2350');
     lights();
   
