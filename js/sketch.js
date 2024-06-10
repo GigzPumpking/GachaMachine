@@ -81,6 +81,7 @@ class GachaMachine {
     this.knob = { x: this.translation.x, y: this.translation.y - 25, z: this.translation.z + 50};
     this.rolls = 0;
     this.gacha_flag = false;
+    this.vibrating = true;
   }
 
   rerollShape() {
@@ -109,6 +110,11 @@ class GachaMachine {
       this.rerollShape();
       // hide the item
       this.item.hide();
+      if (this.rollclick % 2 == 0)
+        this.vibrating = true;
+      else {
+        this.vibrating = false;
+      }
     }
     if (this.rollclick > 4) {
       this.rollclick = 0;
@@ -127,6 +133,7 @@ class GachaMachine {
   }
 
   draw() {
+    console.log("gacha flag: " + this.gacha_flag);
     push();
     translate(this.translation.x, this.translation.y, this.translation.z);
     noStroke();
@@ -157,7 +164,6 @@ class GachaMachine {
     box();
     translate(0, 5, 11);
     push();
-      console.log("RARITY: " + this.getRarity());
       if (this.getRarity() == 0) {
         fill(255, 255, 255);
       } else if (this.getRarity() == 1) {
@@ -183,6 +189,7 @@ class GachaMachine {
         this.rolls += 1;
       }
       if(this.rolls >= 200){
+        this.vibrating = false;
         this.item.visible = true;
         this.gacha_flag = true;
         this.rolls = 0;
@@ -267,7 +274,18 @@ class GachaMachine {
 
     for (let pos of positions) {
       push();
-      translate(pos.x, pos.y, pos.z);
+      let offsetX = 0;
+      let offsetY = 0;
+      let offsetZ = 0;
+
+      // if vibrating, add some random offset
+      if (this.vibrating) {
+        offsetX = random(-5, 5);
+        offsetY = random(-5, 5);
+        offsetZ = random(-5, 5);
+      }
+      
+      translate(pos.x + offsetX, pos.y + offsetY, pos.z + offsetZ);
       fill(...pos.color);
       sphere(15);
       pop();
