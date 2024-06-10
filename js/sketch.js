@@ -26,6 +26,10 @@ function setup() {
   canvas.parent("canvas-container");
 
   createElement("br").parent("canvas-container");
+  createElement("br").parent("canvas-container");
+
+  // add instructions
+  createP("Click the knob to roll the gacha machine!").parent("canvas-container");
 
   textAlign(CENTER, CENTER);
   textSize(1);
@@ -44,16 +48,10 @@ function draw() {
   // Move the 3D text forward along the z-axis
   push();
   translate(0, 150, 85); // Adjust the z value as needed to move the text forward
-  wordText.show();
+  if (gachaMachine.item.visible) {
+    wordText.show();
+  }
   pop();
-
-  // Text Drawing
-  fill(255);
-  text(funnyName, -200, 0, 400, 400);
-
-  rectMode(CENTER);
-  text(mouseY, mouseX/2, mouseY/2);
-  text(mouseX, mouseX/2, mouseY/2 + 50);
 
   // Draw the Gacha Machine
   gachaMachine.draw();
@@ -98,6 +96,7 @@ class GachaMachine {
       myFont,     // [OPTIONAL, default = "Georgia"] Gives the font uses, can be any default ones or anything added  
       BOLD           // [OPTIONAL, default = BOLD] Gives the chosen style out of BOLD, NORMAL, ITALIC  
     );
+    
   }
 
   getRarity() {
@@ -107,6 +106,9 @@ class GachaMachine {
   handleMousePressed(x, y) {
     if (x - 250 <= this.knob.x + 20 && x - 250 >= this.knob.x - 20 && y - 275 <= this.knob.y + 20 && y - 275 >= this.knob.y - 20) {
       this.rollclick += 1;
+      this.rerollShape();
+      // hide the item
+      this.item.hide();
     }
     if (this.rollclick > 4) {
       this.rollclick = 0;
@@ -155,12 +157,33 @@ class GachaMachine {
     box();
     translate(0, 5, 11);
     push();
-      fill(0, 0, 150)
+      console.log("RARITY: " + this.getRarity());
+      if (this.getRarity() == 0) {
+        fill(255, 255, 255);
+      } else if (this.getRarity() == 1) {
+        fill(0, 255, 0);
+      } else if (this.getRarity() == 2) {
+        fill(0, 0, 255);
+      } else if (this.getRarity() == 3) {
+        fill(255, 0, 0);
+      } else if (this.getRarity() == 4) {
+        fill(255, 255, 0);
+      } else if (this.getRarity() == 5) {
+        fill(255, 0, 255);
+      } else if (this.getRarity() == 6) {
+        fill(0, 255, 255);
+      } else if (this.getRarity() == 7) {
+        fill(255, 255, 255);
+      } else if (this.getRarity() == 8) {
+        fill(0, 0, 0);
+      } else if (this.getRarity() == 9) {
+        fill(255, 255, 255);
+      }
       if(this.rollclick%2 == 1 && this.rolls < 200 && this.gacha_flag == false){
         this.rolls += 1;
       }
       if(this.rolls >= 200){
-        this.rerollShape();
+        this.item.visible = true;
         this.gacha_flag = true;
         this.rolls = 0;
       }
@@ -190,7 +213,9 @@ class GachaMachine {
     translate(0, 125, 50);
     pop();
 
-    model(this.shape);
+    if (this.item.visible) {
+      model(this.shape);
+    }
   }
 
   drawSpheres() {

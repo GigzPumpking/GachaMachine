@@ -63,6 +63,7 @@ function returnRarity() {
  */
 class Gacha {
   constructor() {
+    this.visible = false;
     this.generate();
   }
 
@@ -328,5 +329,13 @@ class Gacha {
 
     // Stop building the p5.Geometry object and saves it to shape.
     return endGeometry();
+  }
+
+  hide() {
+    this.visible = false;
+  }
+
+  show() {
+    this.visible = true;
   }
 }

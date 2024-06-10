@@ -31,3 +31,9 @@ body {
 h1 {
     font-family: 'gacha', sans-serif;
 }
+
+p {
+    font-family: 'gacha', sans-serif;
+    text-align: center;
+    font-size: 20px;
+}
