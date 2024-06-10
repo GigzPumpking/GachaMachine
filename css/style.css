@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'gacha';
-    src: url('assets/04B_30__.TTF') format('truetype');
+    src: url('../assets/04B_30__.TTF') format('truetype');
 }
 
 /* Set the canvas element to be the full size of the container */
@@ -27,6 +27,7 @@ body {
     width: 100%;
     height: 600px;
     justify-content: center;
+    align-items: center;
 }
 
 h1 {

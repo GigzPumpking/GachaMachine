@@ -5,10 +5,32 @@ let running = false;
 let currentP5Instance;
 let obtained = [];
 let dropdown;
+let rollingSfx;
+let commonSfx;
+let rareSfx;
+let epicSfx;
 
 function preload() {
-  myFont = loadFont('assets/Roboto-Regular.ttf');
-  pixelFont = loadFont('assets/04B_30__.TTF');
+  myFont = loadFont('../assets/Roboto-Regular.ttf');
+  pixelFont = loadFont('../assets/04B_30__.TTF');
+
+  // load sfx
+  soundFormats('mp3', 'ogg');
+  rollingSfx = loadSound('../assets/gumball.mp3', soundLoaded);
+  rollingSfx.setVolume(1);
+  
+  commonSfx = loadSound('../assets/common.mp3');
+  commonSfx.setVolume(1);
+
+  rareSfx = loadSound('../assets/rare.mp3');
+  rareSfx.setVolume(1);
+
+  epicSfx = loadSound('../assets/epic.mp3');
+  epicSfx.setVolume(1);
+}
+
+function soundLoaded() {
+  console.log("Sound loaded");
 }
 
 function setup() {
@@ -19,17 +41,34 @@ function setup() {
 
 function actualSetup() {
   let canvas = createCanvas(500, 500, WEBGL);
+  // align canvas to center
+  canvas.position(windowWidth / 2 - width / 2, windowHeight / 2 - height / 2 - 40);
   canvas.parent("canvas-container");
+
+  rollingSfx = loadSound('../assets/gumball.mp3', soundLoaded);
+  rollingSfx.setVolume(1);
+
+  commonSfx = loadSound('../assets/common.mp3');
+  commonSfx.setVolume(1);
+
+  rareSfx = loadSound('../assets/rare.mp3');
+  rareSfx.setVolume(1);
+
+  epicSfx = loadSound('../assets/epic.mp3');
+  epicSfx.setVolume(1);
 
   createElement("br").parent("canvas-container");
   createElement("br").parent("canvas-container");
 
   // add instructions
-  createP("Click the knob to roll the gacha machine!").parent("canvas-container");
+  let instructions = createP("Click the knob to roll the gacha machine!").parent("canvas-container");
+  // set instructions below the canvas
+  instructions.position(windowWidth / 2 - width / 2 - 75, windowHeight / 2 + height / 2 - 20);
 
   // Create inventory
   let inventory = createP("Inventory: ").parent("canvas-container");
   inventory.style("font-weight", "bold");
+  inventory.position(windowWidth / 2 - width / 2 + 150, windowHeight / 2 + height / 2 + 40);
   
   // Create dropdown
   dropdown = createSelect();
@@ -45,13 +84,7 @@ function actualSetup() {
     }
   });
 
-  textAlign(CENTER, CENTER);
-  textSize(1);
-  textFont(myFont);
-
   gachaMachine = new GachaMachine();
-
-  gachaMachine.rerollShape();
 }
 
 function draw() {
@@ -119,6 +152,7 @@ class GachaMachine {
     this.rolls = 0;
     this.gacha_flag = false;
     this.vibrating = true;
+    this.canRoll = true;
   }
 
   rerollShape() {
@@ -132,6 +166,10 @@ class GachaMachine {
   }
 
   handleMousePressed(x, y) {
+    if (!this.canRoll) {
+      return;
+    }
+
     if (x - 250 <= this.knob.x + 20 && x - 250 >= this.knob.x - 20 && y - 275 <= this.knob.y + 20 && y - 275 >= this.knob.y - 20) {
       this.rollclick += 1;
       this.rerollShape();
@@ -141,6 +179,7 @@ class GachaMachine {
         this.vibrating = true;
       else {
         this.vibrating = false;
+        rollingSfx.play();
       }
     }
     if (this.rollclick > 4) {
@@ -211,7 +250,8 @@ class GachaMachine {
       } else if (this.getRarity() == 9) {
         fill(255, 255, 255);
       }
-      if(this.rollclick%2 == 1 && this.rolls < 200 && this.gacha_flag == false){
+      if(this.rollclick%2 == 1 && this.rolls < 200 && this.gacha_flag == false) {
+        this.canRoll = false;
         this.rolls += 1;
       }
       if(this.rolls >= 200){
@@ -222,6 +262,16 @@ class GachaMachine {
 
         obtained.push(this.item);
         dropdown.option(this.item.name);
+
+        if (this.getRarity() <= 2) {
+          commonSfx.play();
+        } else if (this.getRarity() <= 4) {
+          rareSfx.play();
+        } else {
+          epicSfx.play();
+        }
+
+        this.canRoll = true;
       }
       if(this.rollclick%2 == 0){
         this.rolls = 0;
