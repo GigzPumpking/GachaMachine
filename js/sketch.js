@@ -9,6 +9,7 @@ let rollingSfx;
 let commonSfx;
 let rareSfx;
 let epicSfx;
+let bg = '#3C2350';
 
 function preload() {
   myFont = loadFont('../assets/Roboto-Regular.ttf');
@@ -89,49 +90,7 @@ function actualSetup() {
 
 function draw() {
   if (running) {
-    /*
-    if (gachaMachine.getRarity() == 0){
-      background('#FFFFFF')
-    }
-    if (gachaMachine.getRarity() == 1){
-      background('#FFF999')
-    
-    }
-    if (gachaMachine.getRarity() == 2){
-      background('#111999')
-    
-    }
-    if (gachaMachine.getRarity() == 3){
-      background('#cc4343')
-    
-    }
-    if (gachaMachine.getRarity() == 4){
-      background('#FFF000')
-    
-    }
-    if (gachaMachine.getRarity() == 5){
-      background('#FFF000')
-    
-    }
-    if (gachaMachine.getRarity() == 6){
-      background('#220fff')
-    
-    }
-    if (gachaMachine.getRarity() == 7){
-      background('#3C2350')
-    
-    }
-    if (gachaMachine.getRarity() == 8){
-      background('#27a31c')
-    
-    }
-    if (gachaMachine.getRarity() == 9){
-      background('#000000')
-    
-    }
-    */
-
-    background('#3C2350');
+    background(bg);
     lights();
   
     // Move the 3D text forward along the z-axis
@@ -304,6 +263,37 @@ class GachaMachine {
 
         obtained.push(this.item);
         dropdown.option(this.item.name);
+
+        if (this.getRarity() == 0){
+          bg = '#eadada'
+        }
+        else if (this.getRarity() == 1){
+          bg = '#FFF999'
+        }
+        else if (this.getRarity() == 2){
+          bg = '#111999'
+        }
+        else if (this.getRarity() == 3){
+          bg = '#cc4343'
+        }
+        else if (this.getRarity() == 4){
+          bg = '#e2db6f'        
+        }
+        else if (this.getRarity() == 5){
+          bg = '#5ebc5e'
+        }
+        else if (this.getRarity() == 6){
+          bg = '#220fff'
+        }
+        else if (this.getRarity() == 7){
+          bg = '#3C2350'
+        }
+        else if (this.getRarity() == 8){
+          bg = '#27a31c'
+        }
+        else if (this.getRarity() == 9){
+          bg = '#000000'
+        }
 
         if (this.getRarity() <= 2) {
           commonSfx.play();
